@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Error</title>
+<style>
+* {
+	padding: 0px;
+}
+
+.container {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.image {
+	width: 289px;
+}
+
+.logo_img {
+	margin: 24px;
+}
+
+h1 {
+	font-family: monospace;
+	font-size: 29px;
+	margin-bottom: 0px;
+	color: #c83232;
+	text-align: center;
+}
+
+h2 {
+	font-family: monospace;
+	color: #747474;
+	text-align: center;
+}
+
+.error_msg {
+	display: flex;
+	flex-direction: column;
+	padding-bottom: 10px;
+	justify-content: center;
+	align-items: center;
+	padding-left: 40px;
+	padding-right: 40px;
+	border-radius: 10px;
+	margin-left: 10px;
+	margin-right: 10px;
+	background: #ebebeb;
+}
+
+.logo_div {
+	display: flex;
+	justify-content: center;
+}
+
+.error_div {
+	display: flex;
+	margin-top: 29px;
+	flex-direction: column;
+}
+</style>
+<script>
+	function setValues() {
+		let url = new URL(window.location.href);
+		//let errmsg = url.searchParams.get('errmsg');
+		let errmsg = "We have sent an email for verification.";
+
+		document.getElementById('errmsg').innerHTML = errmsg;
+		
+		let xmlHttp = new XMLHttpRequest();
+		xmlHttp.open("GET", "/RuleServer/services/default/monitor/assets/authlogourl", false);
+		xmlHttp.send(null);
+		if(xmlHttp.status == 200) {
+    		document.getElementById('logo').src = xmlHttp.responseText;
+    	} else {
+    		document.getElementById('logo').src = "./logo.png";
+    	}
+		//Added for Auth Page Title
+		xmlHttp.open("GET", "/RuleServer/services/default/monitor/assets/authpagetitle", false);
+		xmlHttp.send(null);
+   		if(xmlHttp.status == 200) {
+			document.title = xmlHttp.responseText;
+		}
+	}
+</script>
+</head>
+<body onload="setValues()">
+	<div class="container">
+		<div class="logo_div">
+			<img class="logo_img" id="logo" src="./white_logo.png" alt="Truebyl">
+		</div>
+		<div class="error_div">
+			<div
+				style="display: flex; justify-content: center; margin-bottom: 25px;">
+				<img class="image" src="error_graphics.png">
+			</div>
+			<div class="error_msg">
+				<h2 id="errmsg">errormsg</h2>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
