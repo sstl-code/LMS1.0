@@ -1,0 +1,487 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.20.6.final using JasperReports Library version 6.20.6-5c96b6aa8a39ac1dc6b6bea4b81168e16dd39231  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Invoice History Report" pageWidth="1640" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="1640" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" isIgnorePagination="true" uuid="656f2b96-66fc-4c32-bf12-6df4e7e0018e">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="217"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="783"/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="LMSAdapter.jrdax"/>
+	<property name="net.sf.jasperreports.export.xls.freeze.row" value="5"/>
+	<parameter name="IMAGEPATH" class="java.lang.String"/>
+	<parameter name="FROM" class="java.util.Date"/>
+	<parameter name="TO" class="java.util.Date"/>
+	<parameter name="SITEID" class="java.lang.String">
+		<defaultValueExpression><![CDATA[($P{SITEID}==null)?"":$P{SITEID}]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[with data as(
+select a.invoiceno invoiceno,b.invoiceid invoiceid,a.sitecode sitecode,a.landlordname landlordname,
+a.sapvendorcode sapvendorcode,
+case when b.status=0 then 'To be Processed'
+when b.status=1 then 'Hold by EMG'
+when b.status=2 then 'Rejected by EMG'
+when b.status=3 then 'Approved by EMG'
+when b.status=4 then 'Rejected by Finance'
+when b.status=5 then 'Approved by Finance'
+when b.status=6 then 'Sent to SAP'
+when b.status=7 then 'Payment Record Received'
+when b.status=8 then 'Cancelled'
+when b.status=9 then 'Resend' end status,
+to_char(b.actiontime,'dd-mm-yyyy hh24:mi:ss') modon,b.actiontime::timestamp modondt,b.username username,
+case when a.invoicetype=1 then 'Rent'
+ when a.invoicetype=2 then 'Maintenance'
+ when a.invoicetype=3 then 'Escalation'
+ when a.invoicetype=4 then 'Rent+ Space Charges + Conservancy Fee'
+ when a.invoicetype=5 then 'Space Charges & Conservancy Fee'
+ when a.invoicetype=6 then 'Space Charges'
+ when a.invoicetype=7 then 'Waiver'
+ when a.invoicetype=8 then 'Debit Note'
+ when a.invoicetype=9 then 'Credit Note'
+  when a.invoicetype=10 then 'Interest Charges'
+  when a.invoicetype=11 then 'NFA'
+  when a.invoicetype=12 then 'SD - License Fee'
+  when a.invoicetype=13 then 'Others'
+  when a.invoicetype=14 then 'Advance'
+  when a.invoicetype=15 then 'SD-EB'   
+  when a.invoicetype=16 then 'EB-Advance' 
+  when a.invoicetype=17 then 'EB'
+  when a.invoicetype=18 then 'FCU'
+  when a.invoicetype=19 then 'DG'
+  when a.invoicetype=20 then 'EB+FCU'
+ when a.invoicetype=21 then 'EB+DG'
+  when a.invoicetype=22 then 'EB Fixed Charges' end invoicetype
+from crest_invoice_summary a,crest_status b
+where a.invoiceid = b.invoiceid
+and upper(a.sitecode) like '%'||upper($P{SITEID})||'%'
+and b.actiontime::date between $P{FROM}::date and $P{TO}::date
+order by
+sitecode,landlordname,sapvendorcode,invoiceno,invoiceid,modondt)
+select invoiceno,invoiceid,sitecode,landlordname,sapvendorcode,status,modon,modondt,username,
+lag(modondt,1) over (PARTITION BY sitecode,landlordname,sapvendorcode,invoiceno,invoiceid order by
+sitecode,landlordname,sapvendorcode,invoiceno,invoiceid,modondt) prevactiondate,invoicetype
+from data]]>
+	</queryString>
+	<field name="invoiceno" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="invoiceno"/>
+		<property name="com.jaspersoft.studio.field.label" value="invoiceno"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="crest_invoice_summary"/>
+		<fieldDescription><![CDATA[Invoice No.]]></fieldDescription>
+	</field>
+	<field name="invoiceid" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="invoiceid"/>
+		<property name="com.jaspersoft.studio.field.label" value="invoiceid"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="crest_status"/>
+		<fieldDescription><![CDATA[Invoice Id]]></fieldDescription>
+	</field>
+	<field name="sitecode" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="sitecode"/>
+		<property name="com.jaspersoft.studio.field.label" value="sitecode"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="crest_invoice_summary"/>
+		<fieldDescription><![CDATA[Site for which the invoice is generated]]></fieldDescription>
+	</field>
+	<field name="landlordname" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="landlordname"/>
+		<property name="com.jaspersoft.studio.field.label" value="landlordname"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="crest_invoice_summary"/>
+		<fieldDescription><![CDATA[Name of the landlord for which this invoice is generated]]></fieldDescription>
+	</field>
+	<field name="sapvendorcode" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="sapvendorcode"/>
+		<property name="com.jaspersoft.studio.field.label" value="sapvendorcode"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="crest_invoice_summary"/>
+		<fieldDescription><![CDATA[SAP vendor code for the landlord for which this invoice is generated]]></fieldDescription>
+	</field>
+	<field name="status" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="status"/>
+		<property name="com.jaspersoft.studio.field.label" value="status"/>
+	</field>
+	<field name="modon" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="modon"/>
+		<property name="com.jaspersoft.studio.field.label" value="modon"/>
+	</field>
+	<field name="modondt" class="java.sql.Timestamp">
+		<property name="com.jaspersoft.studio.field.name" value="modondt"/>
+		<property name="com.jaspersoft.studio.field.label" value="modondt"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="crest_status"/>
+	</field>
+	<field name="username" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="username"/>
+		<property name="com.jaspersoft.studio.field.label" value="username"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="crest_status"/>
+		<fieldDescription><![CDATA[user for every action]]></fieldDescription>
+	</field>
+	<field name="prevactiondate" class="java.sql.Timestamp">
+		<property name="com.jaspersoft.studio.field.name" value="prevactiondate"/>
+		<property name="com.jaspersoft.studio.field.label" value="prevactiondate"/>
+	</field>
+	<field name="invoicetype" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="invoicetype"/>
+		<property name="com.jaspersoft.studio.field.label" value="invoicetype"/>
+	</field>
+	<variable name="InvoiceLastChanged" class="java.util.Date" resetType="Group" resetGroup="InvoiceGrp" calculation="Highest">
+		<variableExpression><![CDATA[$F{modondt}]]></variableExpression>
+	</variable>
+	<variable name="InvoiceCreateOn" class="java.util.Date" resetType="Group" resetGroup="InvoiceGrp" calculation="Lowest">
+		<variableExpression><![CDATA[$F{modondt}]]></variableExpression>
+	</variable>
+	<group name="InvoiceGrp">
+		<groupExpression><![CDATA[$F{sitecode}+","+$F{landlordname}+","+$F{sapvendorcode}+","+$F{invoiceno}+","+$F{invoiceid}+","+$F{invoicetype}]]></groupExpression>
+		<groupHeader>
+			<band height="30">
+				<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				<frame>
+					<reportElement positionType="Float" stretchType="ContainerHeight" mode="Opaque" x="0" y="0" width="1640" height="30" backcolor="#E1E1E1" uuid="af1dbd36-95ca-4bbf-a2f7-d58293925abd">
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+						<property name="com.jaspersoft.studio.unit.x" value="px"/>
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					</reportElement>
+					<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+						<reportElement x="0" y="0" width="240" height="30" uuid="c9a0098f-c377-4544-98ca-d1ea7c6ba09f">
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<property name="com.jaspersoft.studio.unit.height" value="px"/>
+							<property name="com.jaspersoft.studio.unit.x" value="px"/>
+							<property name="com.jaspersoft.studio.unit.y" value="px"/>
+							<property name="net.sf.jasperreports.export.xls.auto.filter" value="Start"/>
+						</reportElement>
+						<textElement verticalAlignment="Middle">
+							<font fontName="DMSansFonts" size="11" isBold="true"/>
+						</textElement>
+						<textFieldExpression><![CDATA["Site ID: \n"+$F{sitecode}]]></textFieldExpression>
+					</textField>
+					<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+						<reportElement x="240" y="0" width="240" height="30" uuid="f8f33da3-ca62-4951-b7c7-f2ef4fb53383">
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<property name="com.jaspersoft.studio.unit.height" value="px"/>
+							<property name="com.jaspersoft.studio.unit.x" value="px"/>
+							<property name="com.jaspersoft.studio.unit.y" value="px"/>
+						</reportElement>
+						<textElement verticalAlignment="Middle">
+							<font fontName="DMSansFonts" size="11" isBold="true"/>
+						</textElement>
+						<textFieldExpression><![CDATA["Landlord Name: \n"+$F{landlordname}]]></textFieldExpression>
+					</textField>
+					<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+						<reportElement x="480" y="0" width="280" height="30" uuid="1f1532f3-9c6a-44ce-b061-b0917cbbcce7">
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<property name="com.jaspersoft.studio.unit.height" value="px"/>
+							<property name="com.jaspersoft.studio.unit.x" value="px"/>
+							<property name="com.jaspersoft.studio.unit.y" value="px"/>
+						</reportElement>
+						<textElement verticalAlignment="Middle">
+							<font fontName="DMSansFonts" size="11" isBold="true"/>
+						</textElement>
+						<textFieldExpression><![CDATA["SAP Vendor Code: \n"+$F{sapvendorcode}]]></textFieldExpression>
+					</textField>
+					<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+						<reportElement x="760" y="0" width="320" height="30" uuid="d1892813-37eb-428c-9061-cd94b56b72e4">
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<property name="com.jaspersoft.studio.unit.height" value="px"/>
+							<property name="com.jaspersoft.studio.unit.x" value="px"/>
+							<property name="com.jaspersoft.studio.unit.y" value="px"/>
+						</reportElement>
+						<textElement verticalAlignment="Middle">
+							<font fontName="DMSansFonts" size="11" isBold="true"/>
+						</textElement>
+						<textFieldExpression><![CDATA["Invoice No: \n"+$F{invoiceno}]]></textFieldExpression>
+					</textField>
+					<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+						<reportElement x="1360" y="0" width="280" height="30" uuid="e905fd29-39eb-4a58-9499-a2348ad0b527">
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<property name="com.jaspersoft.studio.unit.height" value="px"/>
+							<property name="com.jaspersoft.studio.unit.y" value="px"/>
+							<property name="com.jaspersoft.studio.unit.x" value="px"/>
+							<property name="net.sf.jasperreports.export.xls.auto.filter" value="End"/>
+						</reportElement>
+						<textElement verticalAlignment="Middle">
+							<font fontName="DMSansFonts" size="11" isBold="true"/>
+						</textElement>
+						<textFieldExpression><![CDATA["Invoice Type: \n"+$F{invoicetype}]]></textFieldExpression>
+					</textField>
+					<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+						<reportElement x="1080" y="0" width="280" height="30" uuid="a7296d7d-4cda-471a-ac03-95b22b2ea219">
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<property name="com.jaspersoft.studio.unit.height" value="px"/>
+							<property name="com.jaspersoft.studio.unit.x" value="px"/>
+							<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+						</reportElement>
+						<textElement verticalAlignment="Middle">
+							<font fontName="DMSansFonts" size="11" isBold="true"/>
+						</textElement>
+						<textFieldExpression><![CDATA["Invoice Id: \n"+$F{invoiceid}]]></textFieldExpression>
+					</textField>
+				</frame>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="35">
+				<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				<frame>
+					<reportElement positionType="Float" stretchType="RelativeToTallestObject" mode="Opaque" x="0" y="0" width="1640" height="35" backcolor="#E1E1E1" uuid="e5c8c76a-913c-4818-8376-3342684d5e65">
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+						<property name="com.jaspersoft.studio.unit.x" value="px"/>
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<box>
+						<bottomPen lineWidth="1.0"/>
+					</box>
+					<textField textAdjust="StretchHeight" evaluationTime="Group" evaluationGroup="InvoiceGrp" isBlankWhenNull="true">
+						<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="760" y="0" width="880" height="35" uuid="3e7dcb86-a49c-4497-82bc-e60f118391b8">
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<property name="com.jaspersoft.studio.unit.x" value="px"/>
+							<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						</reportElement>
+						<textElement verticalAlignment="Middle">
+							<font fontName="DMSansFonts" size="11" isBold="true"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$F{status}.equals("To be Processed")?"Invoice Aging:\n"+(new Date().getTime()-$V{InvoiceCreateOn}.getTime())/1000/3600/24+" Day "+(new Date().getTime()-$V{InvoiceCreateOn}.getTime())/1000/3600%24+" Hour "+String.format("%2s",(((new Date().getTime()-$V{InvoiceCreateOn}.getTime())/1000%3600)/60)).replace(' ', '0')+" Min "+String.format("%2s",(((new Date().getTime()-$V{InvoiceCreateOn}.getTime())/1000%3600)%60)).replace(' ', '0')+" Sec":"Invoice  Aging:\n"+($V{InvoiceLastChanged}.getTime()-$V{InvoiceCreateOn}.getTime())/1000/3600+" Hour "+String.format("%2s", (($V{InvoiceLastChanged}.getTime()-$V{InvoiceCreateOn}.getTime())/1000%3600)/60).replace(' ', '0')+" Min "+String.format("%2s",(($V{InvoiceLastChanged}.getTime()-$V{InvoiceCreateOn}.getTime())/1000%3600)%60).replace(' ', '0')+" Sec"]]></textFieldExpression>
+					</textField>
+					<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+						<reportElement stretchType="RelativeToTallestObject" x="480" y="0" width="280" height="35" uuid="25623d52-fe31-4e28-bb3e-1dc4836df599">
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<property name="com.jaspersoft.studio.unit.x" value="px"/>
+						</reportElement>
+						<textElement verticalAlignment="Middle">
+							<font fontName="DMSansFonts" size="11" isBold="true"/>
+						</textElement>
+						<textFieldExpression><![CDATA["Invoice Status:\n"+$F{status}]]></textFieldExpression>
+					</textField>
+					<textField textAdjust="StretchHeight" isBlankWhenNull="false">
+						<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="0" y="0" width="480" height="35" uuid="d233720b-7def-489f-9357-afe4e4a88f3a">
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<property name="com.jaspersoft.studio.unit.x" value="px"/>
+							<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						</reportElement>
+						<textElement verticalAlignment="Middle">
+							<font fontName="DMSansFonts" size="11" isBold="true"/>
+						</textElement>
+						<textFieldExpression><![CDATA["Invoice Generated On:\n"+new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format($V{InvoiceCreateOn})]]></textFieldExpression>
+					</textField>
+				</frame>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="90" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<frame>
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="0" y="0" width="1640" height="90" uuid="437f87d2-68a2-4e4d-8cde-fc6039d9cfb0">
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineColor="#DEE2E6"/>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#DEE2E6"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#DEE2E6"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#DEE2E6"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#DEE2E6"/>
+				</box>
+				<image hAlign="Left" vAlign="Middle">
+					<reportElement x="0" y="0" width="1640" height="60" uuid="d918e02e-54c8-40a0-91a7-d6eaae300c3c">
+						<property name="com.jaspersoft.studio.unit.x" value="px"/>
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					</reportElement>
+					<imageExpression><![CDATA[!($P{IMAGEPATH}.equals("")) ? new java.io.ByteArrayInputStream(com.ruleengine.common.Helpers.base64Decode($P{IMAGEPATH})):null]]></imageExpression>
+				</image>
+				<textField textAdjust="StretchHeight">
+					<reportElement positionType="Float" mode="Opaque" x="0" y="70" width="1640" height="20" forecolor="#000000" uuid="123de433-fbec-408a-991b-3b1598a693f2">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						<property name="com.jaspersoft.studio.unit.x" value="px"/>
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					</reportElement>
+					<textElement textAlignment="Left">
+						<font fontName="DMSansFonts" size="12" isBold="true" isUnderline="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA["INVOICE HISTORY REPORT AS ON "+new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(new Date())]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="35">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<frame>
+				<reportElement positionType="Float" mode="Opaque" x="0" y="0" width="1640" height="35" backcolor="#E1E1E1" uuid="5e596882-2b84-4829-8d7d-c1b030045008">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<staticText>
+					<reportElement positionType="Float" x="970" y="0" width="670" height="35" uuid="1f904caa-276c-4822-9e87-658682c2e2e5">
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					</reportElement>
+					<box topPadding="0" leftPadding="5" bottomPadding="0" rightPadding="5">
+						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="DMSansFonts" size="10" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Aging]]></text>
+				</staticText>
+				<staticText>
+					<reportElement positionType="Float" x="0" y="0" width="480" height="35" uuid="c45cc15e-cce7-4206-9433-c02e448588e2">
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+						<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					</reportElement>
+					<box topPadding="0" leftPadding="5" bottomPadding="0">
+						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="DMSansFonts" size="10" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Invoice  Status]]></text>
+				</staticText>
+				<staticText>
+					<reportElement positionType="Float" x="480" y="0" width="280" height="35" uuid="c631427a-efcc-4c72-aed4-b7eac5bf556e">
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+						<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					</reportElement>
+					<box topPadding="0" leftPadding="5" bottomPadding="0">
+						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="DMSansFonts" size="10" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Invoice Status Change date]]></text>
+				</staticText>
+				<staticText>
+					<reportElement positionType="Float" x="760" y="0" width="210" height="35" uuid="74ee5abd-dbe7-41ce-a4bc-34dd339888eb">
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					</reportElement>
+					<box topPadding="0" leftPadding="5" bottomPadding="0" rightPadding="5">
+						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="DMSansFonts" size="10" isBold="true"/>
+					</textElement>
+					<text><![CDATA[User Name]]></text>
+				</staticText>
+			</frame>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="30" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<frame>
+				<reportElement stretchType="RelativeToTallestObject" x="0" y="0" width="1640" height="30" uuid="38bdf488-e3f5-44a1-a9bf-e70c4446a109">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineColor="#E2EEF1"/>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#E2EEF1"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#E2EEF1"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#E2EEF1"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#E2EEF1"/>
+				</box>
+				<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+					<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="970" y="0" width="670" height="30" uuid="23f8ef53-7979-4d31-90f2-75ccf54f216c">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+						<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					</reportElement>
+					<box topPadding="0" leftPadding="5" bottomPadding="0" rightPadding="0">
+						<pen lineWidth="1.0" lineColor="#DEE2E6"/>
+						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="DMSansFonts" size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[($F{modondt}.getTime()-$F{prevactiondate}.getTime())/1000/3600/24+" Day "+($F{modondt}.getTime()-$F{prevactiondate}.getTime())/1000/3600%24+" Hour "+String.format("%2s", (($F{modondt}.getTime()-$F{prevactiondate}.getTime())/1000%3600)/60).replace(' ', '0')+" Min "+String.format("%2s",(($F{modondt}.getTime()-$F{prevactiondate}.getTime())/1000%3600)%60).replace(' ', '0')+" Sec"]]></textFieldExpression>
+				</textField>
+				<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+					<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="0" y="0" width="480" height="30" uuid="cf70abfd-e56b-45e4-8a67-64b928b49224">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					</reportElement>
+					<box topPadding="0" leftPadding="5" bottomPadding="0" rightPadding="0">
+						<pen lineWidth="1.0" lineColor="#DEE2E6"/>
+						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="DMSansFonts" size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{status}]]></textFieldExpression>
+				</textField>
+				<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+					<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="480" y="0" width="280" height="30" uuid="15cac945-4053-4c13-9b6a-6cf3c7eb1e59">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+						<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					</reportElement>
+					<box topPadding="0" leftPadding="5" bottomPadding="0" rightPadding="0">
+						<pen lineWidth="1.0" lineColor="#DEE2E6"/>
+						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="DMSansFonts" size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{modon}]]></textFieldExpression>
+				</textField>
+				<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+					<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="761" y="1" width="209" height="30" uuid="785f9fd7-7c14-48fe-9aa1-24018dcb523f">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+						<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					</reportElement>
+					<box topPadding="0" leftPadding="5" bottomPadding="0" rightPadding="0">
+						<pen lineWidth="1.0" lineColor="#DEE2E6"/>
+						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="DMSansFonts" size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{username}]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</detail>
+</jasperReport>

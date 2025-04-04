@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.12.2.final using JasperReports Library version 6.12.2-75c5e90a222ab406e416cbf590a5397028a52de3  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Landlord Ledger Report_Sub" pageWidth="1544" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="1544" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" isIgnorePagination="true" uuid="656f2b96-66fc-4c32-bf12-6df4e7e0018e">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="CrestLMSDA.xml"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="217"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="783"/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<parameter name="LandlordId" class="java.lang.Long"/>
+	<queryString>
+		<![CDATA[select a.landlordname,coalesce(b.otherinfo::json->>'SAP Vendor Code', '') VendoeCode
+from tb_landlord a,tb_landlordattribute b
+where a.landlordid =$P{LandlordId}
+and a.landlordid = b.landlordid]]>
+	</queryString>
+	<field name="landlordname" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="landlordname"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="tb_landlord"/>
+	</field>
+	<field name="vendoecode" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="vendoecode"/>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="54" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<textField textAdjust="StretchHeight">
+				<reportElement positionType="Float" x="0" y="0" width="1544" height="20" forecolor="#000000" uuid="1096a7da-4c27-41e7-ae4c-269e2951e12e">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left">
+					<font fontName="DMSansFonts" size="12" isBold="true" isUnderline="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["LANDLORD LEDGER REPORT (INVOICE & PAYMENTS) AS ON "+new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(new java.util.Date())]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight">
+				<reportElement positionType="Float" x="0" y="20" width="1544" height="20" forecolor="#000000" uuid="f1d45a16-9134-467e-a68b-944b4bfc0cd6">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left">
+					<font fontName="DMSansFonts" size="12" isBold="true" isUnderline="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Landlord ID: "+$P{LandlordId}+"\nLandlord Name: "+$F{landlordname}+"\nVendor Code: "+$F{vendoecode}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+</jasperReport>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.20.6.final using JasperReports Library version 6.20.6-5c96b6aa8a39ac1dc6b6bea4b81168e16dd39231  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="invoice Pendency Sub Report" columnCount="12" printOrder="Horizontal" pageWidth="595" pageHeight="842" columnWidth="47" leftMargin="0" rightMargin="20" topMargin="0" bottomMargin="0" uuid="85458383-c7b5-46a1-93f6-29673f02b8c6">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="LMSAdapter.jrdax"/>
+	<parameter name="FROMDATE" class="java.util.Date"/>
+	<parameter name="TODATE" class="java.util.Date"/>
+	<parameter name="LANDLORDID" class="java.lang.Integer"/>
+	<parameter name="SITEID" class="java.lang.String"/>
+	<queryString language="SQL">
+		<![CDATA[select  fn_pendency_report($P{FROMDATE},$P{TODATE},$P{LANDLORDID},$P{SITEID});]]>
+	</queryString>
+	<field name="fn_pendency_report" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="fn_pendency_report"/>
+		<property name="com.jaspersoft.studio.field.label" value="fn_pendency_report"/>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="21" splitType="Stretch">
+			<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.HorizontalRowLayout"/>
+			<textField isBlankWhenNull="true">
+				<reportElement positionType="Float" x="0" y="0" width="132" height="21" uuid="a3b4bfd8-e638-43af-9935-e1161af2b9fc">
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+				</reportElement>
+				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="DMSansFonts" isBold="true"/>
+					<paragraph leftIndent="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fn_pendency_report}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

@@ -1,0 +1,599 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.21.2.final using JasperReports Library version 6.21.2-8434a0bd7c3bbc37cbf916f2968d35e4b165821a  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Electricity Invoice Pendency" printOrder="Horizontal" pageWidth="1645" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="1645" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" isIgnorePagination="true" uuid="656f2b96-66fc-4c32-bf12-6df4e7e0018e">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="LMS"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="217"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="783"/>
+	<property name="net.sf.jasperreports.export.xls.freeze.row" value="4"/>
+	<parameter name="IMAGEPATH" class="java.lang.String"/>
+	<parameter name="FROM" class="java.util.Date"/>
+	<parameter name="TO" class="java.util.Date"/>
+	<queryString>
+		<![CDATA[SELECT * from fn_pendency_report_months($P{FROM}, $P{TO},17 );]]>
+	</queryString>
+	<field name="id" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.name" value="id"/>
+		<property name="com.jaspersoft.studio.field.label" value="id"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="crest_invoice_pendency_report"/>
+	</field>
+	<field name="landlord_id" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.name" value="landlord_id"/>
+		<property name="com.jaspersoft.studio.field.label" value="landlord_id"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="crest_invoice_pendency_report"/>
+	</field>
+	<field name="landlord_name" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="landlord_name"/>
+		<property name="com.jaspersoft.studio.field.label" value="landlord_name"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="crest_invoice_pendency_report"/>
+	</field>
+	<field name="sitecode" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="sitecode"/>
+		<property name="com.jaspersoft.studio.field.label" value="sitecode"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="crest_invoice_pendency_report"/>
+	</field>
+	<field name="circle" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="circle"/>
+		<property name="com.jaspersoft.studio.field.label" value="circle"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="crest_invoice_pendency_report"/>
+	</field>
+	<field name="address" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="address"/>
+		<property name="com.jaspersoft.studio.field.label" value="address"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="crest_invoice_pendency_report"/>
+	</field>
+	<field name="monthname1" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="monthname1"/>
+		<property name="com.jaspersoft.studio.field.label" value="monthname1"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="crest_invoice_pendency_report"/>
+	</field>
+	<field name="pendancy1" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="pendancy1"/>
+		<property name="com.jaspersoft.studio.field.label" value="pendancy1"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="crest_invoice_pendency_report"/>
+	</field>
+	<field name="monthname2" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="monthname2"/>
+		<property name="com.jaspersoft.studio.field.label" value="monthname2"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="crest_invoice_pendency_report"/>
+	</field>
+	<field name="pendancy2" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="pendancy2"/>
+		<property name="com.jaspersoft.studio.field.label" value="pendancy2"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="crest_invoice_pendency_report"/>
+	</field>
+	<field name="monthname3" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="monthname3"/>
+		<property name="com.jaspersoft.studio.field.label" value="monthname3"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="crest_invoice_pendency_report"/>
+	</field>
+	<field name="pendancy3" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="pendancy3"/>
+		<property name="com.jaspersoft.studio.field.label" value="pendancy3"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="crest_invoice_pendency_report"/>
+	</field>
+	<field name="monthname4" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="monthname4"/>
+		<property name="com.jaspersoft.studio.field.label" value="monthname4"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="crest_invoice_pendency_report"/>
+	</field>
+	<field name="pendancy4" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="pendancy4"/>
+		<property name="com.jaspersoft.studio.field.label" value="pendancy4"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="crest_invoice_pendency_report"/>
+	</field>
+	<field name="monthname5" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="monthname5"/>
+		<property name="com.jaspersoft.studio.field.label" value="monthname5"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="crest_invoice_pendency_report"/>
+	</field>
+	<field name="pendancy5" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="pendancy5"/>
+		<property name="com.jaspersoft.studio.field.label" value="pendancy5"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="crest_invoice_pendency_report"/>
+	</field>
+	<field name="monthname6" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="monthname6"/>
+		<property name="com.jaspersoft.studio.field.label" value="monthname6"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="crest_invoice_pendency_report"/>
+	</field>
+	<field name="pendancy6" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="pendancy6"/>
+		<property name="com.jaspersoft.studio.field.label" value="pendancy6"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="crest_invoice_pendency_report"/>
+	</field>
+	<field name="monthname7" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="monthname7"/>
+		<property name="com.jaspersoft.studio.field.label" value="monthname7"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="crest_invoice_pendency_report"/>
+	</field>
+	<field name="pendancy7" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="pendancy7"/>
+		<property name="com.jaspersoft.studio.field.label" value="pendancy7"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="crest_invoice_pendency_report"/>
+	</field>
+	<field name="monthname8" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="monthname8"/>
+		<property name="com.jaspersoft.studio.field.label" value="monthname8"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="crest_invoice_pendency_report"/>
+	</field>
+	<field name="pendancy8" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="pendancy8"/>
+		<property name="com.jaspersoft.studio.field.label" value="pendancy8"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="crest_invoice_pendency_report"/>
+	</field>
+	<field name="monthname9" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="monthname9"/>
+		<property name="com.jaspersoft.studio.field.label" value="monthname9"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="crest_invoice_pendency_report"/>
+	</field>
+	<field name="pendancy9" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="pendancy9"/>
+		<property name="com.jaspersoft.studio.field.label" value="pendancy9"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="crest_invoice_pendency_report"/>
+	</field>
+	<field name="monthname10" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="monthname10"/>
+		<property name="com.jaspersoft.studio.field.label" value="monthname10"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="crest_invoice_pendency_report"/>
+	</field>
+	<field name="pendancy10" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="pendancy10"/>
+		<property name="com.jaspersoft.studio.field.label" value="pendancy10"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="crest_invoice_pendency_report"/>
+	</field>
+	<field name="monthname11" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="monthname11"/>
+		<property name="com.jaspersoft.studio.field.label" value="monthname11"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="crest_invoice_pendency_report"/>
+	</field>
+	<field name="pendancy11" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="pendancy11"/>
+		<property name="com.jaspersoft.studio.field.label" value="pendancy11"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="crest_invoice_pendency_report"/>
+	</field>
+	<field name="monthname12" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="monthname12"/>
+		<property name="com.jaspersoft.studio.field.label" value="monthname12"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="crest_invoice_pendency_report"/>
+	</field>
+	<field name="pendancy12" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="pendancy12"/>
+		<property name="com.jaspersoft.studio.field.label" value="pendancy12"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="crest_invoice_pendency_report"/>
+	</field>
+	<field name="totalopen" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.name" value="totalopen"/>
+		<property name="com.jaspersoft.studio.field.label" value="totalopen"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="crest_invoice_pendency_report"/>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="90" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<frame>
+				<reportElement stretchType="RelativeToTallestObject" x="0" y="0" width="1645" height="90" uuid="437f87d2-68a2-4e4d-8cde-fc6039d9cfb0">
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineColor="#DEE2E6"/>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#DEE2E6"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#DEE2E6"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#DEE2E6"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#DEE2E6"/>
+				</box>
+				<image hAlign="Left" vAlign="Middle">
+					<reportElement x="0" y="1" width="1200" height="60" uuid="d918e02e-54c8-40a0-91a7-d6eaae300c3c">
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+						<property name="com.jaspersoft.studio.unit.x" value="px"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					</reportElement>
+					<imageExpression><![CDATA[!($P{IMAGEPATH}.equals("")) ? new java.io.ByteArrayInputStream(com.ruleengine.common.Helpers.base64Decode($P{IMAGEPATH})):null]]></imageExpression>
+				</image>
+				<textField>
+					<reportElement positionType="Float" x="0" y="70" width="1645" height="20" forecolor="#000000" uuid="123de433-fbec-408a-991b-3b1598a693f2">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						<property name="com.jaspersoft.studio.unit.x" value="px"/>
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					</reportElement>
+					<textElement textAlignment="Left">
+						<font fontName="DMSansFonts" size="12" isBold="true" isUnderline="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA["ELECTRICITY INVOICE PENDENCY REPORT FOR  "+new SimpleDateFormat("dd-MM-yyyy").format($P{FROM})+" TO "+new SimpleDateFormat("dd-MM-yyyy").format($P{TO})]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="35">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<frame>
+				<reportElement mode="Opaque" x="0" y="0" width="1645" height="35" backcolor="#E1E1E1" uuid="5e596882-2b84-4829-8d7d-c1b030045008">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<staticText>
+					<reportElement positionType="Float" isPrintRepeatedValues="false" x="0" y="0" width="110" height="35" isPrintInFirstWholeBand="true" uuid="dd4a695f-f5af-44af-a215-8e2731a42624">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+						<property name="net.sf.jasperreports.export.xls.auto.filter" value="Start"/>
+					</reportElement>
+					<box topPadding="0" leftPadding="5" bottomPadding="0" rightPadding="0">
+						<pen lineWidth="1.0" lineColor="#DEE2E6"/>
+						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="DMSansFonts" size="10" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Site Id]]></text>
+				</staticText>
+				<staticText>
+					<reportElement positionType="Float" x="280" y="0" width="140" height="35" uuid="0f6e783d-a151-4bd5-bd53-85954bb1bfb8">
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					</reportElement>
+					<box topPadding="0" leftPadding="5" bottomPadding="0">
+						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="DMSansFonts" size="10" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Landlord Name]]></text>
+				</staticText>
+				<staticText>
+					<reportElement positionType="Float" x="110" y="0" width="170" height="35" uuid="4ee7d81c-b9aa-45d5-8073-f6fe2ba83321">
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					</reportElement>
+					<box topPadding="0" leftPadding="5" bottomPadding="0" rightPadding="5">
+						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="DMSansFonts" size="10" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Address]]></text>
+				</staticText>
+				<staticText>
+					<reportElement positionType="Float" x="420" y="0" width="100" height="35" uuid="fe718b36-c02c-4d47-b581-5f93ebeed566">
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					</reportElement>
+					<box topPadding="0" leftPadding="5" bottomPadding="0">
+						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="DMSansFonts" size="10" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Circle]]></text>
+				</staticText>
+				<staticText>
+					<reportElement positionType="Float" x="1540" y="0" width="105" height="35" uuid="aa967cea-6e47-48a1-a198-fada4c4805e6">
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+						<property name="com.jaspersoft.studio.unit.x" value="px"/>
+						<property name="net.sf.jasperreports.export.xls.auto.filter" value="End"/>
+					</reportElement>
+					<box topPadding="0" leftPadding="5" bottomPadding="0">
+						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="DMSansFonts" size="10" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Total Open]]></text>
+				</staticText>
+				<textField isBlankWhenNull="true">
+					<reportElement x="520" y="0" width="85" height="35" uuid="4c4a6bfc-1f22-4948-8b46-788de4d23f9b">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+						<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					</reportElement>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="DMSansFonts" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{monthname1}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement x="605" y="0" width="85" height="35" uuid="d269f5a6-0a6c-48f9-ad80-b8264833e87b">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+						<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					</reportElement>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="DMSansFonts" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{monthname2}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement x="1455" y="0" width="85" height="35" uuid="babbafa2-54c1-422b-b57a-8a73ceab0e33">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+						<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					</reportElement>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="DMSansFonts" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{monthname12}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement x="690" y="0" width="85" height="35" uuid="e5cb4c93-bf36-49ce-9fbd-7749b899e79c">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+						<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					</reportElement>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="DMSansFonts" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{monthname3}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement x="775" y="0" width="85" height="35" uuid="eb67bba2-18b2-41b0-815b-cfeb2eced2fa">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+						<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					</reportElement>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="DMSansFonts" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{monthname4}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement x="860" y="0" width="85" height="35" uuid="91714b37-8364-4ca9-b203-660639778cf1">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+						<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					</reportElement>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="DMSansFonts" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{monthname5}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement x="945" y="0" width="85" height="35" uuid="97dd25ac-edfe-4b4a-883e-7ec0b4b8c418">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+						<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					</reportElement>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="DMSansFonts" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{monthname6}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement x="1030" y="0" width="85" height="35" uuid="2c3b50e4-35c3-4869-b229-b365a90a858c">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+						<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					</reportElement>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="DMSansFonts" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{monthname7}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement x="1115" y="0" width="85" height="35" uuid="6ee014f9-b8e4-457b-94db-12f834393e71">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+						<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					</reportElement>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="DMSansFonts" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{monthname8}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement x="1200" y="0" width="85" height="35" uuid="b7210c69-496d-429b-b3dd-4ea0f939fd1b">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+						<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					</reportElement>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="DMSansFonts" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{monthname9}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement x="1285" y="0" width="85" height="35" uuid="bda13424-e3b2-4cee-be67-78d282e20b61">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+						<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					</reportElement>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="DMSansFonts" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{monthname10}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement x="1370" y="0" width="85" height="35" uuid="ce40bf15-8288-4d20-8b61-06d1d495e57c">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+						<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					</reportElement>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="DMSansFonts" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{monthname11}]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.spreadsheet.SpreadsheetLayout"/>
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement positionType="Float" mode="Transparent" x="0" y="0" width="112" height="20" uuid="a4e8b712-3071-495f-b926-d77ed79774f6">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{sitecode}]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement mode="Transparent" x="112" y="0" width="170" height="20" uuid="187b7b98-cdee-42dc-816e-f2215965af73">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{address}]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement x="282" y="0" width="140" height="20" isRemoveLineWhenBlank="true" isPrintInFirstWholeBand="true" isPrintWhenDetailOverflows="true" uuid="14e4f40b-6532-4d42-86b2-edb3cc2455ee">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{landlord_name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="422" y="0" width="98" height="20" uuid="aa95b706-c67d-4189-b6fb-267fc9ab9505">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{circle}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="520" y="0" width="85" height="20" uuid="d7d266b5-9bcf-4d54-97eb-fc2ca0a4b00b">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{pendancy1}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="605" y="0" width="85" height="20" uuid="a85701de-dcb4-435f-ac49-85a44a27de8b">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{pendancy2}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="690" y="0" width="85" height="20" uuid="c2061d57-43dd-4cf0-be4a-c77635b23f1f">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{pendancy3}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="775" y="0" width="85" height="20" uuid="ead1975b-2b9f-423e-b3c4-a4fe9558b9eb">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{pendancy4}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="860" y="0" width="85" height="20" uuid="2d373f47-bc1d-4f73-b039-8e7710287e73">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{pendancy5}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="945" y="0" width="85" height="20" uuid="59910066-d44d-4925-a552-23cb47772662">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{pendancy6}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="1030" y="0" width="85" height="20" uuid="f59fa781-24f5-4fcd-97ab-dd8fee725b78">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{pendancy7}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="1115" y="0" width="85" height="20" uuid="1fe3263d-0a5b-4584-83a9-f027e2588321">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{pendancy8}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="1200" y="0" width="85" height="20" uuid="94845a0e-eb11-409f-b8af-8131b7b2bb4a">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{pendancy9}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="1285" y="0" width="85" height="20" uuid="96c3690f-2f1b-4fd2-8c75-0b6ea04ff255">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{pendancy10}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="1370" y="0" width="85" height="20" uuid="0b8ed173-35fb-4c1f-acf7-d0cdc3aff400">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{pendancy11}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="1455" y="0" width="85" height="20" uuid="3ff5947d-c7b2-475b-b9fe-5b4b183a7bb9">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{pendancy12}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="1540" y="0" width="105" height="20" uuid="16fbfcf7-281f-4c4f-9ec2-8785611b6b99">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left">
+					<paragraph leftIndent="15"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{totalopen}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

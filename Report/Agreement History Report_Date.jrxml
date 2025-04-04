@@ -1,0 +1,672 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.20.6.final using JasperReports Library version 6.20.6-5c96b6aa8a39ac1dc6b6bea4b81168e16dd39231  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Agreement History Report_Date" pageWidth="1390" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="1390" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" isIgnorePagination="true" uuid="656f2b96-66fc-4c32-bf12-6df4e7e0018e">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="LMSAdapter.jrdax"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="217"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="783"/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<property name="net.sf.jasperreports.export.xls.freeze.row" value="5"/>
+	<parameter name="IMAGEPATH" class="java.lang.String"/>
+	<parameter name="FROM" class="java.util.Date"/>
+	<parameter name="TO" class="java.util.Date"/>
+	<queryString>
+		<![CDATA[with data as(
+select b.agreementid agreementid,b.createon::timestamp createon,
+to_char(b.createon,'dd-mm-yyyy hh24:mi:ss') createonstr,case when b.status=0 then 'Pending' 
+when b.status=1 then 'Active' when b.status=2 then 'Deactivated' 
+when b.status=3 then 'Expired' when b.status=4 then 'Rejected' end agrstatus,
+b.agreementname,a.approveraccepttime approveraccepttimedt,a.actiontimestamp actiontimestampdt,
+COALESCE(a.docketno,'') docketno,COALESCE(a.taskname,'') taskname,
+COALESCE(a.approvarname,'') approvarname,to_char(approveraccepttime,'dd-mm-yyyy hh24:mi:ss') approveraccepttime,
+COALESCE(a.approvalstatus,'') approvalstatus,
+to_char(a.actiontimestamp,'dd-mm-yyyy hh24:mi:ss') actiontimestamp,'' statuschangedate,
+COALESCE(a.approvalremarks,'') approvalremarks,
+COALESCE(a.workgroup,'') workgroup,
+case when c.status=1 then 'In Progress' when c.status=2 then 'Closed' else 'Rejected' end docketstatus
+from tb_document_approval_record a, tb_siteagreement b,wfm_orders c
+where b.createon::date between $P{FROM}::date and $P{TO}::date
+and a.agreementid =b.agreementid
+and a.docketno = c.instanceid
+union all
+select a.agreementid agreementid ,a.create_on::timestamp createon,
+to_char(a.create_on,'dd-mm-yyyy hh24:mi:ss') createonstr,
+case when a.status=0 then 'Pending' when a.status=1 then 'Active' when a.status=2 then 'Deactivated' 
+when a.status=3 then 'Expired' when a.status=4 then 'Rejected' end agrstatus,
+a.agreementname,null approveraccepttimedt,a.create_on actiontimestampdt,
+null docketno,null taskname,null approvarname,null approveraccepttime,'' approvalstatus,
+to_char(a.create_on,'dd-mm-yyyy hh24:mi:ss') actiontimestamp,
+to_char(a.create_on,'dd-mm-yyyy hh24:mi:ss') statuschangedate,null approvalremarks,null workgroup,
+null docketstatus
+from crest_agreement_history a
+where a.create_on::date between $P{FROM}::date and $P{TO}::date
+and status in(0,2,3)
+order by agreementid,actiontimestampdt)
+select agreementid,createon,createonstr,agrstatus,agreementname,approveraccepttimedt,actiontimestampdt,
+lag(actiontimestampdt,1) over (PARTITION BY agreementid order by agreementid,actiontimestampdt) prevactiondate ,
+docketno,taskname,approvarname,approveraccepttime,approvalstatus,actiontimestamp,statuschangedate,approvalremarks,
+workgroup,docketstatus
+from data]]>
+	</queryString>
+	<field name="agreementid" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="agreementid"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="crest_agreement_history"/>
+	</field>
+	<field name="createon" class="java.sql.Timestamp">
+		<property name="com.jaspersoft.studio.field.label" value="createon"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="crest_agreement_history"/>
+	</field>
+	<field name="createonstr" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="createonstr"/>
+	</field>
+	<field name="agrstatus" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="agrstatus"/>
+	</field>
+	<field name="agreementname" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="agreementname"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="crest_agreement_history"/>
+	</field>
+	<field name="approveraccepttimedt" class="java.sql.Timestamp">
+		<property name="com.jaspersoft.studio.field.label" value="approveraccepttimedt"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="tb_document_approval_record"/>
+	</field>
+	<field name="actiontimestampdt" class="java.sql.Timestamp">
+		<property name="com.jaspersoft.studio.field.label" value="actiontimestampdt"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="tb_document_approval_record"/>
+	</field>
+	<field name="prevactiondate" class="java.sql.Timestamp">
+		<property name="com.jaspersoft.studio.field.label" value="prevactiondate"/>
+	</field>
+	<field name="docketno" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="docketno"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="tb_document_approval_record"/>
+	</field>
+	<field name="taskname" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="taskname"/>
+	</field>
+	<field name="approvarname" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="approvarname"/>
+	</field>
+	<field name="approveraccepttime" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="approveraccepttime"/>
+	</field>
+	<field name="approvalstatus" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="approvalstatus"/>
+	</field>
+	<field name="actiontimestamp" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="actiontimestamp"/>
+	</field>
+	<field name="statuschangedate" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="statuschangedate"/>
+	</field>
+	<field name="approvalremarks" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="approvalremarks"/>
+	</field>
+	<field name="workgroup" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="workgroup"/>
+	</field>
+	<field name="docketstatus" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="docketstatus"/>
+	</field>
+	<variable name="AgreementLastChanged" class="java.util.Date" resetType="Group" resetGroup="AgreementidGrp" calculation="Highest">
+		<variableExpression><![CDATA[$F{actiontimestampdt}]]></variableExpression>
+	</variable>
+	<variable name="AgreementCreateOn" class="java.util.Date" resetType="Group" resetGroup="AgreementidGrp" calculation="Lowest">
+		<variableExpression><![CDATA[$F{actiontimestampdt}]]></variableExpression>
+	</variable>
+	<group name="AgreementidGrp">
+		<groupExpression><![CDATA[$F{agreementid}]]></groupExpression>
+		<groupHeader>
+			<band height="30">
+				<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				<frame>
+					<reportElement positionType="Float" stretchType="ContainerHeight" mode="Opaque" x="0" y="0" width="1390" height="30" backcolor="#E1E1E1" uuid="af1dbd36-95ca-4bbf-a2f7-d58293925abd">
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+						<property name="com.jaspersoft.studio.unit.x" value="px"/>
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					</reportElement>
+					<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+						<reportElement x="0" y="0" width="240" height="30" uuid="c9a0098f-c377-4544-98ca-d1ea7c6ba09f">
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<property name="com.jaspersoft.studio.unit.height" value="px"/>
+							<property name="com.jaspersoft.studio.unit.x" value="px"/>
+							<property name="com.jaspersoft.studio.unit.y" value="px"/>
+						</reportElement>
+						<textElement verticalAlignment="Middle">
+							<font fontName="DMSansFonts" size="11" isBold="true"/>
+						</textElement>
+						<textFieldExpression><![CDATA["Agreement ID: \n"+$F{agreementid}]]></textFieldExpression>
+					</textField>
+				</frame>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="35">
+				<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				<frame>
+					<reportElement positionType="Float" stretchType="RelativeToTallestObject" mode="Opaque" x="0" y="0" width="1390" height="35" backcolor="#E1E1E1" uuid="e5c8c76a-913c-4818-8376-3342684d5e65">
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+						<property name="com.jaspersoft.studio.unit.x" value="px"/>
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<box>
+						<bottomPen lineWidth="1.0"/>
+					</box>
+					<textField textAdjust="StretchHeight" evaluationTime="Group" evaluationGroup="AgreementidGrp" isBlankWhenNull="true">
+						<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="850" y="0" width="540" height="35" uuid="3e7dcb86-a49c-4497-82bc-e60f118391b8">
+							<property name="com.jaspersoft.studio.unit.x" value="px"/>
+							<property name="com.jaspersoft.studio.unit.height" value="px"/>
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+						</reportElement>
+						<box>
+							<topPen lineWidth="1.0" lineColor="#E1E1E1"/>
+						</box>
+						<textElement verticalAlignment="Middle">
+							<font fontName="DMSansFonts" size="11" isBold="true"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$F{agrstatus}.equals("Pending")?"Agreement Aging:\n"+(new Date().getTime()-$V{AgreementCreateOn}.getTime())/1000/3600/24+" Day "+String.format("%2s",(((new Date().getTime()-$V{AgreementCreateOn}.getTime())/1000/3600%24)))+" Hour "+String.format("%2s",(((new Date().getTime()-$V{AgreementCreateOn}.getTime())/1000%3600)/60)).replace(' ', '0')+" Min "+String.format("%2s",(((new Date().getTime()-$V{AgreementCreateOn}.getTime())/1000%3600)%60)).replace(' ', '0')+" Sec":"Agreement Aging:\n"+($V{AgreementLastChanged}.getTime()-$V{AgreementCreateOn}.getTime())/1000/3600/24+" Day "+($V{AgreementLastChanged}.getTime()-$V{AgreementCreateOn}.getTime())/1000/3600%24+" Hour "+String.format("%2s", (($V{AgreementLastChanged}.getTime()-$V{AgreementCreateOn}.getTime())/1000%3600)/60).replace(' ', '0')+" Min "+String.format("%2s",(($V{AgreementLastChanged}.getTime()-$V{AgreementCreateOn}.getTime())/1000%3600)%60).replace(' ', '0')+" Sec"]]></textFieldExpression>
+					</textField>
+					<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+						<reportElement stretchType="RelativeToTallestObject" x="510" y="0" width="340" height="35" uuid="25623d52-fe31-4e28-bb3e-1dc4836df599">
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<property name="com.jaspersoft.studio.unit.x" value="px"/>
+						</reportElement>
+						<box>
+							<topPen lineWidth="1.0" lineColor="#E1E1E1"/>
+						</box>
+						<textElement verticalAlignment="Middle">
+							<font fontName="DMSansFonts" size="11" isBold="true"/>
+						</textElement>
+						<textFieldExpression><![CDATA["Agreement Status:\n"+$F{agrstatus}]]></textFieldExpression>
+					</textField>
+					<textField textAdjust="StretchHeight" isBlankWhenNull="false">
+						<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="0" y="0" width="510" height="35" uuid="d233720b-7def-489f-9357-afe4e4a88f3a">
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<property name="com.jaspersoft.studio.unit.x" value="px"/>
+							<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						</reportElement>
+						<box>
+							<pen lineColor="#E1E1E1"/>
+							<topPen lineWidth="1.0"/>
+						</box>
+						<textElement verticalAlignment="Middle">
+							<font fontName="DMSansFonts" size="11" isBold="true"/>
+						</textElement>
+						<textFieldExpression><![CDATA["Agreement Created On:\n"+new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format($V{AgreementCreateOn})]]></textFieldExpression>
+					</textField>
+				</frame>
+			</band>
+		</groupFooter>
+	</group>
+	<group name="DocketGrp">
+		<groupExpression><![CDATA[$F{docketno}]]></groupExpression>
+		<groupFooter>
+			<band height="30">
+				<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				<printWhenExpression><![CDATA[!$F{docketstatus}.equals("null")]]></printWhenExpression>
+				<frame>
+					<reportElement stretchType="RelativeToTallestObject" mode="Opaque" x="0" y="0" width="1390" height="30" backcolor="#E1E1E1" uuid="dc21b894-f6dd-4cdc-87b0-59b92f46be42">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						<property name="com.jaspersoft.studio.unit.x" value="px"/>
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					</reportElement>
+					<box>
+						<pen lineColor="#E2EEF1"/>
+						<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#E2EEF1"/>
+						<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#E2EEF1"/>
+						<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#E2EEF1"/>
+						<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#E2EEF1"/>
+					</box>
+					<textField>
+						<reportElement stretchType="RelativeToTallestObject" mode="Transparent" x="0" y="0" width="330" height="30" uuid="bf85fd9d-0078-45ae-bed3-cd9cfb1240cb">
+							<property name="com.jaspersoft.studio.unit.y" value="px"/>
+							<property name="com.jaspersoft.studio.unit.x" value="px"/>
+						</reportElement>
+						<box>
+							<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+							<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+							<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+							<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						</box>
+						<textElement>
+							<font fontName="DMSansFonts" size="11" isBold="true"/>
+						</textElement>
+						<textFieldExpression><![CDATA["Docket Status :  "+$F{docketstatus}]]></textFieldExpression>
+					</textField>
+				</frame>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="90" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<frame>
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="0" y="0" width="1390" height="90" uuid="437f87d2-68a2-4e4d-8cde-fc6039d9cfb0">
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineColor="#DEE2E6"/>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#DEE2E6"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#DEE2E6"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#DEE2E6"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#DEE2E6"/>
+				</box>
+				<image hAlign="Left" vAlign="Middle">
+					<reportElement x="0" y="0" width="1360" height="60" uuid="d918e02e-54c8-40a0-91a7-d6eaae300c3c">
+						<property name="com.jaspersoft.studio.unit.x" value="px"/>
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					</reportElement>
+					<imageExpression><![CDATA[!($P{IMAGEPATH}.equals("")) ? new java.io.ByteArrayInputStream(com.ruleengine.common.Helpers.base64Decode($P{IMAGEPATH})):null]]></imageExpression>
+				</image>
+				<textField textAdjust="StretchHeight">
+					<reportElement positionType="Float" mode="Opaque" x="0" y="70" width="1360" height="20" forecolor="#000000" uuid="123de433-fbec-408a-991b-3b1598a693f2">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						<property name="com.jaspersoft.studio.unit.x" value="px"/>
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					</reportElement>
+					<textElement textAlignment="Left">
+						<font fontName="DMSansFonts" size="12" isBold="true" isUnderline="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA["AGREEMENT HISTORY REPORT AS ON "+new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(new Date())]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="35">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<frame>
+				<reportElement positionType="Float" mode="Opaque" x="0" y="0" width="1390" height="35" backcolor="#E1E1E1" uuid="5e596882-2b84-4829-8d7d-c1b030045008">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<staticText>
+					<reportElement positionType="Float" x="240" y="0" width="90" height="35" uuid="dd4a695f-f5af-44af-a215-8e2731a42624">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+						<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					</reportElement>
+					<box topPadding="0" leftPadding="5" bottomPadding="0" rightPadding="0">
+						<pen lineWidth="1.0" lineColor="#DEE2E6"/>
+						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="DMSansFonts" size="10" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Docket No]]></text>
+				</staticText>
+				<staticText>
+					<reportElement positionType="Float" x="850" y="0" width="130" height="35" uuid="0f6e783d-a151-4bd5-bd53-85954bb1bfb8">
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					</reportElement>
+					<box topPadding="0" leftPadding="5" bottomPadding="0">
+						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="DMSansFonts" size="10" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Approver Accept Time]]></text>
+				</staticText>
+				<staticText>
+					<reportElement positionType="Float" x="630" y="0" width="220" height="35" uuid="4ee7d81c-b9aa-45d5-8073-f6fe2ba83321">
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					</reportElement>
+					<box topPadding="0" leftPadding="5" bottomPadding="0" rightPadding="0">
+						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="DMSansFonts" size="10" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Approver Name]]></text>
+				</staticText>
+				<staticText>
+					<reportElement positionType="Float" x="980" y="0" width="110" height="35" uuid="fe718b36-c02c-4d47-b581-5f93ebeed566">
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					</reportElement>
+					<box topPadding="0" leftPadding="5" bottomPadding="0">
+						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="DMSansFonts" size="10" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Approval Status]]></text>
+				</staticText>
+				<staticText>
+					<reportElement positionType="Float" x="1090" y="0" width="130" height="35" uuid="f3b2d53a-8622-403c-9e1c-63038ce67c0d">
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					</reportElement>
+					<box topPadding="0" leftPadding="5" bottomPadding="0">
+						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="DMSansFonts" size="10" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Action Time Stamp]]></text>
+				</staticText>
+				<staticText>
+					<reportElement key="" positionType="Float" x="1220" y="0" width="170" height="35" uuid="1f904caa-276c-4822-9e87-658682c2e2e5">
+						<property name="net.sf.jasperreports.export.xls.auto.filter" value="End"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					</reportElement>
+					<box topPadding="0" leftPadding="5" bottomPadding="0" rightPadding="5">
+						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="DMSansFonts" size="10" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Aging]]></text>
+				</staticText>
+				<staticText>
+					<reportElement positionType="Float" x="330" y="0" width="180" height="35" uuid="e3134242-e7a9-474a-8cb6-7d8d1acb8ac8">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+						<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					</reportElement>
+					<box topPadding="0" leftPadding="5" bottomPadding="0" rightPadding="0">
+						<pen lineWidth="1.0" lineColor="#DEE2E6"/>
+						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="DMSansFonts" size="10" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Task Name]]></text>
+				</staticText>
+				<staticText>
+					<reportElement positionType="Float" x="510" y="0" width="120" height="35" uuid="30892896-ee49-4620-b3b5-85aa38850121">
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					</reportElement>
+					<box topPadding="0" leftPadding="5" bottomPadding="0" rightPadding="5">
+						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="DMSansFonts" size="10" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Work Group]]></text>
+				</staticText>
+				<staticText>
+					<reportElement positionType="Float" x="0" y="0" width="110" height="35" uuid="c45cc15e-cce7-4206-9433-c02e448588e2">
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+						<property name="com.jaspersoft.studio.unit.x" value="px"/>
+						<property name="net.sf.jasperreports.export.xls.auto.filter" value="Start"/>
+					</reportElement>
+					<box topPadding="0" leftPadding="5" bottomPadding="0">
+						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="DMSansFonts" size="10" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Agreement  Status]]></text>
+				</staticText>
+				<staticText>
+					<reportElement positionType="Float" x="110" y="0" width="130" height="35" uuid="c631427a-efcc-4c72-aed4-b7eac5bf556e">
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+						<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					</reportElement>
+					<box topPadding="0" leftPadding="5" bottomPadding="0">
+						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="DMSansFonts" size="10" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Agreement Status Change date]]></text>
+				</staticText>
+			</frame>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="30" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<frame>
+				<reportElement stretchType="RelativeToTallestObject" x="0" y="0" width="1390" height="30" uuid="38bdf488-e3f5-44a1-a9bf-e70c4446a109">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineColor="#E2EEF1"/>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#E2EEF1"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#E2EEF1"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#E2EEF1"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#E2EEF1"/>
+				</box>
+				<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+					<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="240" y="0" width="90" height="30" uuid="fa446d6c-caee-4387-9d8a-598dd3d77c85">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+						<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					</reportElement>
+					<box topPadding="0" leftPadding="5" bottomPadding="0" rightPadding="0">
+						<pen lineWidth="1.0" lineColor="#DEE2E6"/>
+						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="DMSansFonts" size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{docketno}]]></textFieldExpression>
+				</textField>
+				<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+					<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="630" y="0" width="220" height="30" uuid="16af165a-dda1-49c1-9b3f-7c080d3e3a35">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					</reportElement>
+					<box topPadding="0" leftPadding="5" bottomPadding="0" rightPadding="0">
+						<pen lineWidth="1.0" lineColor="#DEE2E6"/>
+						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="DMSansFonts" size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{approvarname}]]></textFieldExpression>
+				</textField>
+				<textField textAdjust="StretchHeight" pattern="dd-MM-yyyy HH:mm:ss" isBlankWhenNull="true">
+					<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="850" y="0" width="130" height="30" uuid="d49f9f8e-b629-494b-acc0-17368653642c">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					</reportElement>
+					<box topPadding="0" leftPadding="5" bottomPadding="0" rightPadding="0">
+						<pen lineWidth="1.0" lineColor="#DEE2E6"/>
+						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="DMSansFonts" size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{approveraccepttimedt}]]></textFieldExpression>
+				</textField>
+				<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+					<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="980" y="0" width="110" height="30" uuid="1238920c-f6bd-4acf-a1c5-bbec31b347ca">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					</reportElement>
+					<box topPadding="0" leftPadding="5" bottomPadding="0" rightPadding="0">
+						<pen lineWidth="1.0" lineColor="#DEE2E6"/>
+						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="DMSansFonts" size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{approvalstatus}]]></textFieldExpression>
+				</textField>
+				<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+					<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="1220" y="0" width="170" height="30" uuid="23f8ef53-7979-4d31-90f2-75ccf54f216c">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					</reportElement>
+					<box topPadding="0" leftPadding="5" bottomPadding="0" rightPadding="0">
+						<pen lineWidth="1.0" lineColor="#DEE2E6"/>
+						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="DMSansFonts" size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[($F{actiontimestampdt}.getTime()-$F{prevactiondate}.getTime())/1000/3600/24+" Day "+String.format("%2s", (($F{actiontimestampdt}.getTime()-$F{prevactiondate}.getTime())/1000%3600)/60%24).replace(' ', '0')+" Hour "+String.format("%2s", (($F{actiontimestampdt}.getTime()-$F{prevactiondate}.getTime())/1000%3600)/60).replace(' ', '0')+" Min "+String.format("%2s",(($F{actiontimestampdt}.getTime()-$F{prevactiondate}.getTime())/1000%3600)%60).replace(' ', '0')+" Sec"]]></textFieldExpression>
+				</textField>
+				<textField textAdjust="StretchHeight" pattern="dd-MM-yyyy HH:mm:ss" isBlankWhenNull="true">
+					<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="1090" y="0" width="130" height="30" uuid="775d3289-6bf9-4bab-9246-fd50222b2630">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+						<printWhenExpression><![CDATA[!$F{approvalstatus}.equals( "" )]]></printWhenExpression>
+					</reportElement>
+					<box topPadding="0" leftPadding="5" bottomPadding="0" rightPadding="0">
+						<pen lineWidth="1.0" lineColor="#DEE2E6"/>
+						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="DMSansFonts" size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{actiontimestampdt}]]></textFieldExpression>
+				</textField>
+				<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+					<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="330" y="0" width="180" height="30" uuid="e9701c26-0d17-4f07-bb71-6ac45ee9ed64">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					</reportElement>
+					<box topPadding="0" leftPadding="5" bottomPadding="0" rightPadding="0">
+						<pen lineWidth="1.0" lineColor="#DEE2E6"/>
+						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="DMSansFonts" size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{taskname}]]></textFieldExpression>
+				</textField>
+				<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+					<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="510" y="0" width="120" height="30" uuid="b3199145-9207-4c7b-9b3d-ba95456542ff">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					</reportElement>
+					<box topPadding="0" leftPadding="5" bottomPadding="0" rightPadding="0">
+						<pen lineWidth="1.0" lineColor="#DEE2E6"/>
+						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="DMSansFonts" size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{workgroup}]]></textFieldExpression>
+				</textField>
+				<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+					<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="0" y="0" width="110" height="30" uuid="cf70abfd-e56b-45e4-8a67-64b928b49224">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+						<printWhenExpression><![CDATA[$F{approvalstatus}.equals( "" )]]></printWhenExpression>
+					</reportElement>
+					<box topPadding="0" leftPadding="5" bottomPadding="0" rightPadding="0">
+						<pen lineWidth="1.0" lineColor="#DEE2E6"/>
+						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="DMSansFonts" size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{agrstatus}]]></textFieldExpression>
+				</textField>
+				<textField textAdjust="StretchHeight" pattern="dd-MM-yyyy HH:mm:ss" isBlankWhenNull="true">
+					<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="110" y="0" width="130" height="30" uuid="15cac945-4053-4c13-9b6a-6cf3c7eb1e59">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+						<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					</reportElement>
+					<box topPadding="0" leftPadding="5" bottomPadding="0" rightPadding="0">
+						<pen lineWidth="1.0" lineColor="#DEE2E6"/>
+						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="DMSansFonts" size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{statuschangedate}]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</detail>
+</jasperReport>
